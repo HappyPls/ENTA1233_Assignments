@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
+    [SerializeField] private GameObject characterPrefab;
+
     public int health = 100;
     public bool isAiming = false;
 
-    private Animator animator;
-
-    // Start is called before the first frame update
-    void Start()
+    public void SpawnCharacter()
     {
-        animator = GetComponent<Animator>();
-        if (animator == null )
-        {
-            Debug.LogWarning("Animator not found on player!");
-        }
+        Vector3 spawnPosition = Vector3.zero;
+        Instantiate(characterPrefab, spawnPosition, Quaternion.identity, transform);
     }
 
     // Update is called once per frame
@@ -31,12 +27,6 @@ public class CharacterManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             isAiming = !isAiming;
-
-            if (animator != null)
-            {
-                animator.SetBool("Aiming", isAiming);
-            }
-
             Debug.Log("Aiming: " + isAiming);
         }
     }
