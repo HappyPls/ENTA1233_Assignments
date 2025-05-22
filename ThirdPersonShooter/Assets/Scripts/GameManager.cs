@@ -5,24 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    //singleton pattern
+    public static GameManager Instance { get; private set;  }
 
-    public GameObject Player;
-    public CharacterManager characterManager;
+    [SerializeField] private CharacterManager characterManager;
+    [SerializeField] private LevelManager levelManager;
+
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-    }
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        InitializeGame();
+    }
+    private void InitializeGame()
+    {
+        levelManager.LoadLevelAdditively("SimpleLevel");
+        characterManager.SpawnCharacter();
+    }
     // Update is called once per frame
     void Update()
     { 
