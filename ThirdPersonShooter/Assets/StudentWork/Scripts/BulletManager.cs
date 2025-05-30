@@ -7,6 +7,7 @@ namespace Player
 {
     public class BulletManager : MonoBehaviour
     {
+        [SerializeField] private float bulletForce = 100f;
         [SerializeField] private Camera Cam;
         //[SerializeField] private GameObject Player;
         //[SerializeField] private GameObject Barrel;
@@ -28,7 +29,12 @@ namespace Player
         {
             Vector3 direction = Cam.transform.forward;
 
-            Instantiate(BulletPrefab, Cam.transform.position, Cam.transform.rotation);
+            GameObject bullet = Instantiate(BulletPrefab, Cam.transform.position, Cam.transform.rotation);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            if (rb != null )
+            {
+                rb.AddForce(direction * bulletForce, ForceMode.Impulse);
+            }
         }
     }
 }

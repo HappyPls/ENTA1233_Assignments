@@ -437,32 +437,56 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: Damping.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: CameraSide
+      value: 0.614
+      objectReference: {fileID: 0}
+    - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: CameraDistance
+      value: 3.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: ShoulderOffset.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: ShoulderOffset.y
-      value: 0.18
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: ShoulderOffset.z
-      value: 2.46
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: AvoidObstacles.CameraRadius
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 845512405321827668, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: AvoidObstacles.CollisionFilter.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1039330912715397206, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.4000001
+      value: 0.4560001
       objectReference: {fileID: 0}
     - target: {fileID: 1039330912715397206, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.028
+      value: 1.038
       objectReference: {fileID: 0}
     - target: {fileID: 1039330912715397206, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.53999996
+      value: -3.12
       objectReference: {fileID: 0}
     - target: {fileID: 1039330912715397545, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1347848909560569957, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_Name
@@ -471,6 +495,10 @@ PrefabInstance:
     - target: {fileID: 1965824691546112244, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: aim
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386022918963016832, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: Lens.FieldOfView
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3781093919573308757, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -512,13 +540,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4658932075193306675, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: field of view
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658932075193306676, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4560001
+      objectReference: {fileID: 0}
     - target: {fileID: 4658932075193306676, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.148
+      value: 1.038
       objectReference: {fileID: 0}
     - target: {fileID: 4658932075193306676, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -3.12
       objectReference: {fileID: 0}
     - target: {fileID: 4717626205618188844, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: DefaultBlend.Time
@@ -620,6 +656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d10da7ec41bd1ad409c24cc7bba344c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletForce: 100
   Cam: {fileID: 1399039369}
   BulletPrefab: {fileID: 2549816327178122911, guid: c04d9c007b219374e9a68fdd79ab9a9b, type: 3}
   PlayerInputs: {fileID: 8400963377087058849}

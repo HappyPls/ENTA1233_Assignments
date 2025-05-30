@@ -102,6 +102,7 @@ namespace Player
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private bool _isAiming;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -230,6 +231,8 @@ namespace Player
 
         private void CheckAim()
         {
+            _isAiming = Input.Aim;
+
             if(AimCamera)
                 AimCamera.gameObject.SetActive(Input.Aim);
         }
@@ -278,17 +281,42 @@ namespace Player
             // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
             {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                if (!_isAiming)
+                {
+                    _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
+                    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                        RotationSmoothTime);
 
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    // rotate to face input direction relative to camera position
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
+                else
+                {
+                    Vector3 camForward = _mainCamera.transform.forward;
+                    camForward.y = 0.0f;
+                    if (camForward.sqrMagnitude > 0.0f)
+                    {
+                        transform.rotation= Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(camForward), Time.deltaTime * 10f);
+                    }
+                }
             }
 
 
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            Vector3 targetDirection;
+
+            if(_isAiming)
+            {
+                Vector3 right = _mainCamera.transform.right;
+                Vector3 forward = _mainCamera.transform.forward;
+                right.y = 0f;
+                forward.y = 0.0f;
+                targetDirection = (right * _input.move.x + forward * _input.move.y).normalized;
+            }
+            else
+            {
+                targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            }
 
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
