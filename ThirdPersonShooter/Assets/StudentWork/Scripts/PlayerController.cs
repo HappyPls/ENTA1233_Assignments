@@ -2,6 +2,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -90,6 +91,10 @@ namespace Player
         [Header("Input System Handler")]
         [Tooltip("Sets values from the input system")]
         [SerializeField] private PlayerInputActions Input;
+
+        [Header("Crosshair")]
+        [Tooltip("Set Crosshair UI")]
+        [SerializeField] private Image Crosshair;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -235,6 +240,8 @@ namespace Player
 
             if(AimCamera)
                 AimCamera.gameObject.SetActive(Input.Aim);
+
+            Crosshair.enabled=Input.Aim;
         }
 
         private void Move()
