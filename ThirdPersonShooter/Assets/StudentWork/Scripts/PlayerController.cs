@@ -102,7 +102,7 @@ namespace Player
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
-        private bool _isAiming;
+        private bool IsAiming;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -231,7 +231,7 @@ namespace Player
 
         private void CheckAim()
         {
-            _isAiming = Input.Aim;
+            IsAiming = Input.Aim;
 
             if(AimCamera)
                 AimCamera.gameObject.SetActive(Input.Aim);
@@ -279,33 +279,30 @@ namespace Player
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
-            {
-                if (!_isAiming)
+                if (IsAiming)
+                {
+                    Vector3 camForward = _mainCamera.transform.forward;
+                    camForward.y = 0.0f;
+                    if (camForward.sqrMagnitude > 0.0f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(camForward), Time.deltaTime * 10f);
+                    }
+                    
+                }
+                else if (_input.move != Vector2.zero)
                 {
                     _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
+                                   _mainCamera.transform.eulerAngles.y;
                     float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                         RotationSmoothTime);
 
                     // rotate to face input direction relative to camera position
                     transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
-                else
-                {
-                    Vector3 camForward = _mainCamera.transform.forward;
-                    camForward.y = 0.0f;
-                    if (camForward.sqrMagnitude > 0.0f)
-                    {
-                        transform.rotation= Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(camForward), Time.deltaTime * 10f);
-                    }
-                }
-            }
 
 
             Vector3 targetDirection;
-
-            if(_isAiming)
+            if(IsAiming)
             {
                 Vector3 right = _mainCamera.transform.right;
                 Vector3 forward = _mainCamera.transform.forward;
@@ -325,6 +322,12 @@ namespace Player
             // update animator if using character
             if (_hasAnimator)
             {
+                _animator.SetBool("isAiming", IsAiming);
+                if (IsAiming)
+                {
+                    _animator.SetFloat("Pos X", _input.move.x);
+                    _animator.SetFloat("Pos Y", 1f);
+                }
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
