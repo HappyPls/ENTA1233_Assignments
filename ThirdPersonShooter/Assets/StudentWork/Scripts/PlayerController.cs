@@ -325,11 +325,26 @@ namespace Player
                 _animator.SetBool("isAiming", IsAiming);
                 if (IsAiming)
                 {
-                    _animator.SetFloat("Pos X", _input.move.x);
-                    _animator.SetFloat("Pos Y", 1f);
+                    float strafeX = _input.move.x;
+                    float strafeY = 0f;
+
+                    if (Mathf.Abs(strafeX) > 0.01f)
+                    {
+                        if (_input.sprint)
+                            strafeY = 1f;
+                        else
+                            strafeY = 0.5f;
+                    }
+
+                    _animator.SetFloat("StrafeX", strafeX);
+                    _animator.SetFloat("StrafeY", strafeY);
+
                 }
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                else
+                {
+                    _animator.SetFloat(_animIDSpeed, _animationBlend);
+                    _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                }
             }
         }
 
