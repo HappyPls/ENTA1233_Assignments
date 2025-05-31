@@ -331,7 +331,7 @@ namespace Player
                     if (Mathf.Abs(strafeX) > 0.01f)
                     {
                         if (_input.sprint)
-                            strafeY = 1f;
+                            strafeY = 6f;
                         else
                             strafeY = 0.5f;
                     }
