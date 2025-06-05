@@ -30,6 +30,12 @@ namespace Player
 
         private void Update()
         {
+            if (PlayerInputs.ToggleFire)
+            {
+                ToggleShootType();
+                PlayerInputs.ToggleFire = false; // reset after toggle
+            }
+
             if (PlayerInputs.Aim && PlayerInputs.Fire) OnFirePressed();
             PlayerInputs.Fire = false;
         }
@@ -87,6 +93,11 @@ namespace Player
             Gizmos.color = Color.red;
             if(PlayerInputs.Aim)
             Gizmos.DrawLine(Cam.transform.position, Cam.transform.position + Cam.transform.forward * 100);
+        }
+        private void ToggleShootType()
+        {
+            ShootingCalculation = ShootingCalculation == ShootType.Raycast ? ShootType.Physics : ShootType.Raycast;
+            Debug.Log("Switched Fire Mode to: " + ShootingCalculation);
         }
 
         private void CleanupParticle()
