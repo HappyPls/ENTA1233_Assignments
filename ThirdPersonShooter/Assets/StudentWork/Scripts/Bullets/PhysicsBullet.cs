@@ -12,6 +12,8 @@ public class PhysicsBullet : MonoBehaviour
     [SerializeField] private Rigidbody Rb;
     [SerializeField] private float LifeTime = 10f;
 
+    private bool hasHit = false;
+
     public void Start()
     {
         Rb.AddForce(transform.forward * ProjectileSpeed, ForceMode.Impulse);
@@ -21,6 +23,14 @@ public class PhysicsBullet : MonoBehaviour
     {
         //ContactPoint contact = collision.GetCollision();
         //BulletManager.OnProjectileCollision();
+        hasHit = true;
         Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        if (!hasHit)
+        {
+            Debug.Log("Bullet Missed!");
+        }
     }
 }
