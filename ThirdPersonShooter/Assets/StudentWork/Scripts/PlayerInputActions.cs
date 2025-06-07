@@ -14,6 +14,7 @@ namespace Player
 		public bool sprint;
 		public bool Aim { get; private set; }
 		public bool Fire;
+		public bool ToggleFire;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -53,6 +54,10 @@ namespace Player
         public void OnFire(InputValue value)
         {
             FireInput(value.isPressed);
+        }
+        public void OnToggleFire(InputValue value)
+        {
+            ToggleFireInput(value.isPressed);
         }
 #endif
 
@@ -95,6 +100,10 @@ namespace Player
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
-	}
+        public void ToggleFireInput(bool newFireState)
+        {
+            ToggleFire = newFireState;
+        }
+    }
 	
 }

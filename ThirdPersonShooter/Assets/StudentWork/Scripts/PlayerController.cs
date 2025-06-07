@@ -2,6 +2,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -91,6 +92,10 @@ namespace Player
         [Tooltip("Sets values from the input system")]
         [SerializeField] private PlayerInputActions Input;
 
+        [Header("Crosshair")]
+        [Tooltip("Set Crosshair UI")]
+        [SerializeField] private Image Crosshair;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -102,6 +107,7 @@ namespace Player
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private bool IsAiming;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -230,8 +236,12 @@ namespace Player
 
         private void CheckAim()
         {
+            IsAiming = Input.Aim;
+
             if(AimCamera)
                 AimCamera.gameObject.SetActive(Input.Aim);
+
+            Crosshair.enabled=Input.Aim;
         }
 
         private void Move()
@@ -276,19 +286,41 @@ namespace Player
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
+                if (IsAiming)
+                {
+                    Vector3 camForward = _mainCamera.transform.forward;
+                    camForward.y = 0.0f;
+                    if (camForward.sqrMagnitude > 0.0f)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(camForward), Time.deltaTime * 10f);
+                    }
+                    
+                }
+                else if (_input.move != Vector2.zero)
+                {
+                    _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                                   _mainCamera.transform.eulerAngles.y;
+                    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                        RotationSmoothTime);
+
+                    // rotate to face input direction relative to camera position
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
+
+
+            Vector3 targetDirection;
+            if(IsAiming)
             {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
-
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                Vector3 right = _mainCamera.transform.right;
+                Vector3 forward = _mainCamera.transform.forward;
+                right.y = 0f;
+                forward.y = 0.0f;
+                targetDirection = (right * _input.move.x + forward * _input.move.y).normalized;
             }
-
-
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            else
+            {
+                targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            }
 
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
@@ -297,8 +329,29 @@ namespace Player
             // update animator if using character
             if (_hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                _animator.SetBool("isAiming", IsAiming);
+                if (IsAiming)
+                {
+                    float strafeX = _input.move.x;
+                    float strafeY = 0f;
+
+                    if (Mathf.Abs(strafeX) > 0.01f)
+                    {
+                        if (_input.sprint)
+                            strafeY = 6f;
+                        else
+                            strafeY = 0.5f;
+                    }
+
+                    _animator.SetFloat("StrafeX", strafeX);
+                    _animator.SetFloat("StrafeY", strafeY);
+
+                }
+                else
+                {
+                    _animator.SetFloat(_animIDSpeed, _animationBlend);
+                    _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                }
             }
         }
 
