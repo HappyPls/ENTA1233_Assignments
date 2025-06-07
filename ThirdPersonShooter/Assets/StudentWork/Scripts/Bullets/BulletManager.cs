@@ -9,6 +9,7 @@ namespace Player
     {
         [SerializeField] private float bulletForce = 100f;
         [SerializeField] private Camera Cam;
+        [SerializeField] private Transform FirePoint;
         //[SerializeField] private GameObject Player;
         //[SerializeField] private GameObject Barrel;
 
@@ -59,7 +60,7 @@ namespace Player
         }
         private void SpawnPhysicsBullet()
         {
-            PhysicsBullet spawnedBullet =Instantiate(PhysicsBulletPrefab, Cam.transform.position, Cam.transform.rotation);
+            PhysicsBullet spawnedBullet =Instantiate(PhysicsBulletPrefab, FirePoint.transform.position, Cam.transform.rotation);
             //spawnedBullet = (this);
         }
 
