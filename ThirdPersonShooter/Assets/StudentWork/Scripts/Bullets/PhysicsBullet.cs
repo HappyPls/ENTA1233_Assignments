@@ -10,10 +10,15 @@ public class PhysicsBullet : MonoBehaviour
     [SerializeField] private float ProjectileSpeed = 100f;
     [SerializeField] private float ProjectileDamage;
     [SerializeField] private Rigidbody Rb;
-    [SerializeField] private float LifeTime = 10f;
+    [SerializeField] private float LifeTime = 5f;
+    [SerializeField] private BaseBulletManager shooterManager;
 
     private bool hasHit = false;
 
+    public void Initialize(BaseBulletManager manager)
+    {
+        shooterManager = manager;
+    }
     public void Start()
     {
         Rb.AddForce(transform.forward * ProjectileSpeed, ForceMode.Impulse);
@@ -21,9 +26,12 @@ public class PhysicsBullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //ContactPoint contact = collision.GetCollision();
-        //BulletManager.OnProjectileCollision();
-        hasHit = true;
+        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+        if (enemy != null)
+        {
+            Vector3 hitDirection = other.transform.position - transform.position;
+            enemy.OnDamage(25, hitDirection);
+        }
         Destroy(gameObject);
     }
     private void OnDestroy()

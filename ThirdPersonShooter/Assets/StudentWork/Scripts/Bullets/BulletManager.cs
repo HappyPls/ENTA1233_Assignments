@@ -5,22 +5,14 @@ using UnityEngine;
 
 namespace Player
 {
-    public class BulletManager : MonoBehaviour
+    public class BulletManager : BaseBulletManager
     {
-        [SerializeField] private float bulletForce = 100f;
+        [Header("External Scripts")]
         [SerializeField] private Camera Cam;
-        [SerializeField] private Transform FirePoint;
-        //[SerializeField] private GameObject Player;
-        //[SerializeField] private GameObject Barrel;
-
-        [Header("Bullets")]
-        [SerializeField] private PhysicsBullet PhysicsBulletPrefab;
-        [SerializeField] private RaycastBullet BulletParticle;
-
         [SerializeField] private PlayerInputActions PlayerInputs;
 
+        [Header("Raycast")]
         [SerializeField] private LayerMask RaycastMask;
-
         [SerializeField] private ShootType ShootingCalculation;
 
             public enum ShootType
@@ -50,7 +42,7 @@ namespace Player
                     DoRaycastShot();                    
                     break;
                 case ShootType.Physics:
-                    SpawnPhysicsBullet();                    
+                    SpawnPhysicsBullet(Cam.transform);                    
                     break;
                 default:
                     Debug.LogError("Unexpected Value");
@@ -58,35 +50,30 @@ namespace Player
 
             }
         }
-        private void SpawnPhysicsBullet()
-        {
-            PhysicsBullet spawnedBullet =Instantiate(PhysicsBulletPrefab, FirePoint.transform.position, Cam.transform.rotation);
-            //spawnedBullet = (this);
-        }
+
 
         private void DoRaycastShot()
         {
             Debug.Log("Raycasting");
-            if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RaycastHit hit, Mathf.Infinity, RaycastMask))
 
+            if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RaycastHit hit, Mathf.Infinity, RaycastMask))
             {
                 Debug.Log("Raycast Hit!");
+
+                EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+                if (enemy != null)
+                {
+                    Debug.Log("Enemy hit! Applying Damage.");
+                    Vector3 hitDirection = hit.collider.transform.position - Cam.transform.position;
+                    enemy.OnDamage(25, hitDirection);
+                }
+
                 OnProjectileCollision(hit.point, hit.normal);
             }
             else
             {
                 Debug.Log("Raycast Miss!");
             }
-        }
-
-        private void OnProjectileCollision(Vector3 position, Vector3 rotation)
-        {
-            SpawnParticle(position, rotation);
-        }
-
-        private void SpawnParticle(Vector3 position, Vector3 rotation)
-        {
-            Instantiate(BulletParticle, position, Quaternion.Euler(rotation));
         }
 
         private void OnDrawGizmos()

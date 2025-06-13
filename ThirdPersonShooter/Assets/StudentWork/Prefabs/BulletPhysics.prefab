@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.3606806, y: 1.182, z: -0.30495209}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -151,6 +151,7 @@ MonoBehaviour:
   ProjectileDamage: 0
   Rb: {fileID: 8573844984376919276}
   LifeTime: 10
+  shooterManager: {fileID: 0}
 --- !u!120 &2089570483651588689
 LineRenderer:
   serializedVersion: 2
@@ -204,7 +205,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.006079018
-        value: 0.12500799
+        value: 0.29167467
         inSlope: 0.10148466
         outSlope: 0.10148466
         tangentMode: 0
@@ -213,16 +214,16 @@ LineRenderer:
         outWeight: 0.30201343
       - serializedVersion: 3
         time: 0.45896652
-        value: 0
-        inSlope: -0.5172956
-        outSlope: -0.5172956
+        value: 0.030876454
+        inSlope: -0.18785854
+        outSlope: -0.18785854
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.41732284
-        outWeight: 0.23618092
+        outWeight: 0.24719486
       - serializedVersion: 3
         time: 0.9908874
-        value: 0
+        value: 0.030876454
         inSlope: 0
         outSlope: 0
         tangentMode: 0
