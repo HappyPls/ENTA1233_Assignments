@@ -151,6 +151,7 @@ MonoBehaviour:
   ProjectileDamage: 0
   Rb: {fileID: 8573844984376919276}
   LifeTime: 10
+  shooterManager: {fileID: 0}
 --- !u!120 &2089570483651588689
 LineRenderer:
   serializedVersion: 2

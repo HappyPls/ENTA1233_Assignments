@@ -55,10 +55,19 @@ namespace Player
         private void DoRaycastShot()
         {
             Debug.Log("Raycasting");
-            if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RaycastHit hit, Mathf.Infinity, RaycastMask))
 
+            if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RaycastHit hit, Mathf.Infinity, RaycastMask))
             {
                 Debug.Log("Raycast Hit!");
+
+                EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+                if (enemy != null)
+                {
+                    Debug.Log("Enemy hit! Applying Damage.");
+                    Vector3 hitDirection = hit.collider.transform.position - Cam.transform.position;
+                    enemy.OnDamage(25, hitDirection);
+                }
+
                 OnProjectileCollision(hit.point, hit.normal);
             }
             else

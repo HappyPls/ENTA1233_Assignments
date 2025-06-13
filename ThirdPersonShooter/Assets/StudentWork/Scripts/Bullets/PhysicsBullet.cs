@@ -26,9 +26,12 @@ public class PhysicsBullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //ContactPoint contact = collision.GetCollision();
-        //BulletManager.OnProjectileCollision();
-        hasHit = true;
+        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+        if (enemy != null)
+        {
+            Vector3 hitDirection = other.transform.position - transform.position;
+            enemy.OnDamage(25, hitDirection);
+        }
         Destroy(gameObject);
     }
     private void OnDestroy()
