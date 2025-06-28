@@ -26,11 +26,26 @@ public class PhysicsBullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (hasHit) return;
+
+        float knockbackForce = 10f;
+
         EnemyHealth enemy = other.GetComponent<EnemyHealth>();
         if (enemy != null)
         {
             Vector3 hitDirection = other.transform.position - transform.position;
-            enemy.OnDamage(25, hitDirection);
+            enemy.OnDamage(25, hitDirection, knockbackForce);
+            hasHit = true;
+        }
+
+        PlayerHealth player = other.GetComponent<PlayerHealth>();
+        if (player != null)
+        {
+            hasHit = true;
+            Vector3 hitDirection = (other.transform.position - transform.position).normalized;
+            player.TakeDamage((int)ProjectileDamage, hitDirection, knockbackForce);
+            Destroy(gameObject);
+            return;
         }
         Destroy(gameObject);
     }

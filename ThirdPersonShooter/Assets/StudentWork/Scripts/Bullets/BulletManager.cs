@@ -60,7 +60,7 @@ namespace Player
             {
                 Debug.Log("Raycast Hit!");
 
-                EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+                EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
                 if (enemy != null)
                 {
                     Debug.Log("Enemy hit! Applying Damage.");
