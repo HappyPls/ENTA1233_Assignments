@@ -1,3 +1,4 @@
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,8 @@ public class GameManager : MonoBehaviour
     //singleton pattern
     public static GameManager Instance { get; private set;  }
 
-    [SerializeField] private CharacterManager characterManager;
-    [SerializeField] private LevelManager levelManager;
-
+    [SerializeField] private LevelManager LevelManager;
+    
 
     void Awake()
     {
@@ -27,8 +27,7 @@ public class GameManager : MonoBehaviour
     }
     private void InitializeGame()
     {
-        levelManager.LoadLevelAdditively("SimpleLevel");
-        characterManager.SpawnCharacter();
+        LevelManager.LoadLevelAdditively("SimpleLevel");
     }
     // Update is called once per frame
     void Update()
@@ -39,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void TogglePause()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.P))
         {
             bool isPaused = Time.timeScale == 0;
             Time.timeScale = isPaused ? 1 : 0;
@@ -51,9 +50,9 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
         {
-            //restart game
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
+            Time.timeScale = 1f;
+            LevelManager.Respawn();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
             Debug.Log("Game Restarted!");
         }

@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProjectileSpeed: 500
-  ProjectileDamage: 0
+  ProjectileDamage: 25
   Rb: {fileID: 8573844984376919276}
   LifeTime: 10
   shooterManager: {fileID: 0}

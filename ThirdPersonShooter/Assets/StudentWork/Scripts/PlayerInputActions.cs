@@ -12,9 +12,9 @@ namespace Player
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
-		public bool Aim { get; private set; }
-		public bool Fire;
-		public bool ToggleFire;
+		public bool aim { get; private set; }
+		public bool fire;
+		public bool toggleFire;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -84,11 +84,11 @@ namespace Player
 
         public void AimInput(bool newAimState)
         {
-            Aim = newAimState;
+            aim = newAimState;
         }
         public void FireInput(bool newFireState)
         {
-            Fire = newFireState;
+            fire = newFireState;
         }
 
         private void OnApplicationFocus(bool hasFocus)
@@ -102,7 +102,7 @@ namespace Player
 		}
         public void ToggleFireInput(bool newFireState)
         {
-            ToggleFire = newFireState;
+            toggleFire = newFireState;
         }
     }
 	

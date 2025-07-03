@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -15,31 +17,42 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] private GameObject deathEffect;
+    private NavMeshAgent agent;
+
 
     private void Start()
     {
         currentHP = maxHP;
+        agent = GetComponent<NavMeshAgent>();
 
         if (enemyRenderer != null)
         {
             originalColor = enemyRenderer.material.color;
         }
     }
-    
-    public void OnDamage(int amount, Vector3 hitDirection, float knockbackForce = 5f)
+
+    public void OnDamage(int amount, Vector3 hitDirection, Transform attacker, float knockbackForce = 10f)
     {
         currentHP -= amount;
         FlashHit();
 
+        GetComponent<AgentMoveScript>()?.ReactToHit(attacker);
+
         Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null )
+        if (rb != null)
         {
             rb.AddForce(hitDirection.normalized * knockbackForce, ForceMode.Impulse);
-        }    
+            agent.enabled = false;
+            Invoke(nameof(ReactivateAgent), 0.5f);
+        }
         if (currentHP <= 0)
         {
             Die();
         }
+    }
+    private void ReactivateAgent()
+    {
+        agent.enabled = true;
     }
 
     private void FlashHit()

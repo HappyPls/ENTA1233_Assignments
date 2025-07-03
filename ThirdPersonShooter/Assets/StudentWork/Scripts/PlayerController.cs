@@ -92,7 +92,7 @@ namespace Player
         [Tooltip("Sets values from the input system")]
         [SerializeField] private PlayerInputActions Input;
 
-        [Header("Crosshair")]
+        [Header("PlayerUI")]
         [Tooltip("Set Crosshair UI")]
         [SerializeField] private Image Crosshair;
 
@@ -177,6 +177,7 @@ namespace Player
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+            _animator.GetCurrentAnimatorStateInfo(0);
 
             JumpAndGravity();
             GroundedCheck();
@@ -236,12 +237,12 @@ namespace Player
 
         private void CheckAim()
         {
-            IsAiming = Input.Aim;
+            IsAiming = Input.aim;
 
             if(AimCamera)
-                AimCamera.gameObject.SetActive(Input.Aim);
+                AimCamera.gameObject.SetActive(Input.aim);
 
-            Crosshair.enabled=Input.Aim;
+            Crosshair.enabled=Input.aim;
         }
 
         private void Move()
