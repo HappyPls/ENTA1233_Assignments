@@ -237,12 +237,12 @@ namespace Player
 
         private void CheckAim()
         {
-            IsAiming = Input.Aim;
+            IsAiming = Input.aim;
 
             if(AimCamera)
-                AimCamera.gameObject.SetActive(Input.Aim);
+                AimCamera.gameObject.SetActive(Input.aim);
 
-            Crosshair.enabled=Input.Aim;
+            Crosshair.enabled=Input.aim;
         }
 
         private void Move()

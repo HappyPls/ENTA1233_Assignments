@@ -179,6 +179,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915237405613245336, guid: 17fdd8732f3620e4390f482522d5b5cf, type: 3}
+      propertyPath: LevelManager
+      value: 
+      objectReference: {fileID: 384961641}
+    - target: {fileID: 1915237405613245336, guid: 17fdd8732f3620e4390f482522d5b5cf, type: 3}
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 384961641}

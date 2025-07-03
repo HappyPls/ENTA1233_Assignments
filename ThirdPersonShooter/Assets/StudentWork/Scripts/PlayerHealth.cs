@@ -16,18 +16,26 @@ public class PlayerHealth : MonoBehaviour
     [Header("PlayerUI")]
     [Tooltip("Set Player UI")]
     [SerializeField] private Image HP;
+    [SerializeField] private Image DelayedHP;
     [SerializeField] private Image GameOver;
+
+    [Header("Delayed Effect Settings")]
+    [SerializeField] private float delaySpeed = 0.5f;
+
+    private float targetFillAmount;
 
     private void Start()
     {
         currentHP = maxHP;
-        UpdateUI();
+        targetFillAmount = 1f;
+        UpdateUI(true);
     }
 
     public void TakeDamage(int amount, Vector3 hitDirection, float knockbackForce = 10f)
     {
         currentHP = Mathf.Max(currentHP - amount, 0);
-        UpdateUI();
+        targetFillAmount = (float)currentHP / maxHP;
+        UpdateUI(false);
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
@@ -50,11 +58,30 @@ public class PlayerHealth : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    private void UpdateUI()
+    private void Update()
     {
+        if (DelayedHP != null)
+        {
+            if (DelayedHP.fillAmount > targetFillAmount)
+            {
+                DelayedHP.fillAmount -= delaySpeed * Time.deltaTime;
+                DelayedHP.fillAmount = Mathf.Max(DelayedHP.fillAmount, targetFillAmount);
+            }
+        }
+    }
+
+    private void UpdateUI(bool instantUpdate)
+    {
+        
         if (HP != null)
         {
-            HP.fillAmount = (float)currentHP / maxHP;
+            float fill = (float)currentHP / maxHP;
+            HP.fillAmount = fill;
+
+            if (instantUpdate && DelayedHP != null)
+            {
+                DelayedHP.fillAmount = fill;
+            }
         }
     }
 }

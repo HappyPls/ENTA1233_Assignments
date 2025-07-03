@@ -2,6 +2,7 @@ using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Player
 {
@@ -15,7 +16,16 @@ namespace Player
         [SerializeField] private LayerMask RaycastMask;
         [SerializeField] private ShootType ShootingCalculation;
 
-            public enum ShootType
+        [Header("Firing Point")]
+        [SerializeField] private Transform FirePoint;
+
+        [Header("Sounds")]
+        [SerializeField] private AudioSource ShootingSource;
+        [SerializeField] private AudioClip ShootingSound;
+
+        private bool isCharging = false;
+
+        public enum ShootType
         {
             Raycast = 0,
             Physics = 1,
@@ -23,14 +33,18 @@ namespace Player
 
         private void Update()
         {
-            if (PlayerInputs.ToggleFire)
+            if (PlayerInputs.toggleFire)
             {
                 ToggleShootType();
-                PlayerInputs.ToggleFire = false; // reset after toggle
+                PlayerInputs.toggleFire = false; // reset after toggle
             }
 
-            if (PlayerInputs.Aim && PlayerInputs.Fire) OnFirePressed();
-            PlayerInputs.Fire = false;
+            if (PlayerInputs.aim && PlayerInputs.fire && !isCharging)
+            {
+                OnFirePressed();
+            }
+
+            PlayerInputs.fire = false;
         }
 
         private void OnFirePressed()
@@ -42,7 +56,13 @@ namespace Player
                     DoRaycastShot();                    
                     break;
                 case ShootType.Physics:
-                    SpawnPhysicsBullet(Cam.transform);                    
+                    if (FirePoint != null)
+                    {
+                        Vector3 shootDirection = Cam.transform.forward;
+                        isCharging = true;
+                        SpawnPhysicsBullet(FirePoint, shootDirection);
+                        PlayShootSound();
+                    }
                     break;
                 default:
                     Debug.LogError("Unexpected Value");
@@ -65,7 +85,7 @@ namespace Player
                 {
                     Debug.Log("Enemy hit! Applying Damage.");
                     Vector3 hitDirection = hit.collider.transform.position - Cam.transform.position;
-                    enemy.OnDamage(25, hitDirection);
+                    enemy.OnDamage(25, hitDirection, transform, 15f);
                 }
 
                 OnProjectileCollision(hit.point, hit.normal);
@@ -79,7 +99,7 @@ namespace Player
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            if(PlayerInputs.Aim)
+            if(PlayerInputs.aim)
             Gizmos.DrawLine(Cam.transform.position, Cam.transform.position + Cam.transform.forward * 100);
         }
         private void ToggleShootType()
@@ -88,9 +108,10 @@ namespace Player
             Debug.Log("Switched Fire Mode to: " + ShootingCalculation);
         }
 
-        private void CleanupParticle()
+        private void PlayShootSound()
         {
-
+            if (ShootingSource && ShootingSound)
+                ShootingSource.PlayOneShot(ShootingSound);
         }
     }
 }

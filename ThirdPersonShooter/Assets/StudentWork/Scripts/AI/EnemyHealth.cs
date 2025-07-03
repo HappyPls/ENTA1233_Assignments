@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,10 +31,12 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void OnDamage(int amount, Vector3 hitDirection, float knockbackForce = 10f)
+    public void OnDamage(int amount, Vector3 hitDirection, Transform attacker, float knockbackForce = 10f)
     {
         currentHP -= amount;
         FlashHit();
+
+        GetComponent<AgentMoveScript>()?.ReactToHit(attacker);
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)

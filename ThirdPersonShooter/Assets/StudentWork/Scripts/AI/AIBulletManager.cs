@@ -12,7 +12,7 @@ public class AIBulletManager : BaseBulletManager
     [Header("Firing Settings")]
     [SerializeField] private float FireRate = 1.5f;
     [SerializeField] private float DetectionRadius = 10f;
-    private float CooldownTimer = 0f;
+    private float cooldownTimer = 0f;
     private Transform currentTarget;
 
     private NavMeshAgent agent;
@@ -37,15 +37,15 @@ public class AIBulletManager : BaseBulletManager
             return; // Player no longer visible
         }
 
-        CooldownTimer -= Time.deltaTime;
+        cooldownTimer -= Time.deltaTime;
 
-        if (CooldownTimer <= 0f)
+        if (cooldownTimer <= 0f)
         {
             Vector3 aimPoint = currentTarget.position + Vector3.up * 1.2f; // Adjust Y as needed
             Vector3 dirToTarget = (aimPoint - BulletSpawnPoint.position).normalized;
 
-            SpawnPhysicsBullet(BulletSpawnPoint);
-            CooldownTimer = FireRate;
+            SpawnPhysicsBullet(BulletSpawnPoint, dirToTarget);
+            cooldownTimer = FireRate;
         }
     }
 

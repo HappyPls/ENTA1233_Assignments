@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     //singleton pattern
     public static GameManager Instance { get; private set;  }
 
-    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private LevelManager LevelManager;
     
 
     void Awake()
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
     private void InitializeGame()
     {
-        levelManager.LoadLevelAdditively("SimpleLevel");
+        LevelManager.LoadLevelAdditively("SimpleLevel");
     }
     // Update is called once per frame
     void Update()
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
         {
             Time.timeScale = 1f;
-            levelManager.Respawn();
+            LevelManager.Respawn();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
             Debug.Log("Game Restarted!");

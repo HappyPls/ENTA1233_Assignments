@@ -7,7 +7,7 @@ public class RaycastBullet : MonoBehaviour
     [SerializeField] private ParticleSystem ParticleSystem;
 
     [SerializeField] private float LifeTime = 5f;
-    private float _timer;
+    private float timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +21,8 @@ public class RaycastBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _timer += Time.deltaTime;
-        if (_timer > LifeTime)
+        timer += Time.deltaTime;
+        if (timer > LifeTime)
             Destroy(gameObject);
     }
 }

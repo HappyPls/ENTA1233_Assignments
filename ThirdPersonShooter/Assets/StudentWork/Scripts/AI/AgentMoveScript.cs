@@ -124,10 +124,14 @@ public class AgentMoveScript : MonoBehaviour
         }
         else
         {
-            NavMeshAgent.isStopped = true;
+            if (NavMeshAgent != null && NavMeshAgent.enabled && NavMeshAgent.isOnNavMesh)
+            {
+                NavMeshAgent.isStopped = true;
+            }
 
             Vector3 direction = (lastKnownPlayerPosition - transform.position).normalized;
             direction.y = 0f;
+
             if (direction != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(direction);
@@ -147,7 +151,10 @@ public class AgentMoveScript : MonoBehaviour
             {
                 hasSeenPlayer = false;
                 Player = null;
-                NavMeshAgent.isStopped = false;
+                if (NavMeshAgent != null && NavMeshAgent.enabled && NavMeshAgent.isOnNavMesh)
+                {
+                    NavMeshAgent.isStopped = false;
+                }
                 BulletManager.Disengage();
                 PatrolToNextPoint();
             }
@@ -158,7 +165,7 @@ public class AgentMoveScript : MonoBehaviour
     {
         GameObject[] allPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
 
-        if (allPoints.Length < 3)
+        if (allPoints.Length < 1)
         {
             Debug.LogWarning("Not enough patrol points in the scene!");
             return;
@@ -172,13 +179,28 @@ public class AgentMoveScript : MonoBehaviour
             shuffled[randomIndex] = temp;
         }
 
-        PatrolPoints = new Transform[3];
-        for (int i = 0; i < 3; i++)
+        PatrolPoints = new Transform[shuffled.Count];
+        for (int i = 0; i < shuffled.Count; i++)
         {
             PatrolPoints[i] = shuffled[i].transform;
         }
     }
 
+    public void ReactToHit(Transform attacker)
+    {
+        if (attacker == null) return;
+
+        lastKnownPlayerPosition = attacker.position;
+        memoryTimer = MemoryDuration;
+        hasSeenPlayer = true;
+
+        Vector3 direction = (attacker.position - transform.position).normalized;
+        direction.y = 0;
+        transform.rotation = Quaternion.LookRotation(direction);
+
+        BulletManager?.EngageTarget(attacker);
+        Player = attacker;
+    }
     private void OnDrawGizmosSelected()
     {
         // Draw detection radius

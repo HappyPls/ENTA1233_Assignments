@@ -6,15 +6,28 @@ using Player;
 public class BaseBulletManager : MonoBehaviour
 {
     [Header("Bullets")]
-    [SerializeField] private PhysicsBullet PhysicsBulletPrefab;
+    [SerializeField] private FireballProjectile PhysicsBulletPrefab;
 
     [Header("Particle")]
     [SerializeField] private RaycastBullet BulletParticle;
 
-    protected void SpawnPhysicsBullet(Transform shooterTransform)
+    
+
+    protected void SpawnPhysicsBullet(Transform firePoint, Vector3 direction)
     {
-        PhysicsBullet spawnedBullet = Instantiate(PhysicsBulletPrefab, shooterTransform.transform.position, shooterTransform.transform.rotation);
-        spawnedBullet.Initialize(this);
+        if (PhysicsBulletPrefab == null)
+        {
+            Debug.LogWarning("PhysicsBulletPrefab not assigned!");
+            return;
+        }
+
+        FireballProjectile spawnedBullet = Instantiate(
+            PhysicsBulletPrefab,
+            firePoint.position,
+            Quaternion.LookRotation(direction)
+        );
+
+        spawnedBullet.Initialize(this, null);
     }
 
     protected void OnProjectileCollision(Vector3 position, Vector3 rotation)
@@ -24,6 +37,11 @@ public class BaseBulletManager : MonoBehaviour
 
     private void SpawnParticle(Vector3 position, Vector3 rotation)
     {
-        Instantiate(BulletParticle, position, Quaternion.Euler(rotation));
+        if (BulletParticle != null)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(rotation);
+            Instantiate(BulletParticle, position, lookRotation);
+        }
     }
+
 }
