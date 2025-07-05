@@ -303,10 +303,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Agent
       objectReference: {fileID: 0}
-    - target: {fileID: 1114047611689886405, guid: d58f5b844c8054346bfa8d8b4b39d3dd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2556417871735793528, guid: d58f5b844c8054346bfa8d8b4b39d3dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -346,14 +342,6 @@ PrefabInstance:
     - target: {fileID: 2556417871735793528, guid: d58f5b844c8054346bfa8d8b4b39d3dd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2777616675069522651, guid: d58f5b844c8054346bfa8d8b4b39d3dd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 2777616675069522651, guid: d58f5b844c8054346bfa8d8b4b39d3dd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.77
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -676,6 +664,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 853908156094267917, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 853908156094267917, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1539998
+      objectReference: {fileID: 0}
+    - target: {fileID: 853908156094267917, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 1347848909560569957, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: m_Name
       value: CharacterParent
@@ -753,13 +753,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1523359664}
     - target: {fileID: 7583926538019688485, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 6695342614666528758, guid: 440be409d35ad2a4e9bc113ce8efc1f7, type: 3}
+    - target: {fileID: 7583926538019688485, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: ShootingSound
       value: 
       objectReference: {fileID: 8300000, guid: 5c95c62772061974983e916963b45bf2, type: 3}
     - target: {fileID: 7583926538019688485, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: FireballPrefab
+      value: 
+      objectReference: {fileID: 3891201383825838895, guid: c04d9c007b219374e9a68fdd79ab9a9b, type: 3}
+    - target: {fileID: 7583926538019688485, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: ShootingSource
       value: 
       objectReference: {fileID: 21833068}
+    - target: {fileID: 7583926538019688485, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
+      propertyPath: fireballPrefab
+      value: 
+      objectReference: {fileID: 2549816327178122911, guid: c04d9c007b219374e9a68fdd79ab9a9b, type: 3}
     - target: {fileID: 7583926538019688485, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
       propertyPath: PhysicsBulletPrefab
       value: 

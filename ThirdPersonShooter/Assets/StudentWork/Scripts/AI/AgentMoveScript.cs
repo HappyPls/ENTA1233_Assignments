@@ -193,13 +193,17 @@ public class AgentMoveScript : MonoBehaviour
         lastKnownPlayerPosition = attacker.position;
         memoryTimer = MemoryDuration;
         hasSeenPlayer = true;
+        Player = attacker;
 
         Vector3 direction = (attacker.position - transform.position).normalized;
         direction.y = 0;
         transform.rotation = Quaternion.LookRotation(direction);
 
-        BulletManager?.EngageTarget(attacker);
-        Player = attacker;
+        if (NavMeshAgent != null && NavMeshAgent.enabled && NavMeshAgent.isOnNavMesh)
+        {
+            NavMeshAgent.isStopped = false;
+            NavMeshAgent.SetDestination(lastKnownPlayerPosition);
+        }
     }
     private void OnDrawGizmosSelected()
     {

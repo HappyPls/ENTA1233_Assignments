@@ -40,7 +40,7 @@ namespace Player
                 PlayerInputs.toggleFire = false; // reset after toggle
             }
 
-            if (PlayerInputs.aim && PlayerInputs.fire)
+            if (PlayerInputs.aim && PlayerInputs.fire && !isCharging)
             {
                 OnFirePressed();
             }
