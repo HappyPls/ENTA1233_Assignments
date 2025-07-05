@@ -119,7 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3266f97903864c049b60d861dd0e24b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PhysicsBulletPrefab: {fileID: 559817631083846654, guid: 440be409d35ad2a4e9bc113ce8efc1f7, type: 3}
+  FireballPrefab: {fileID: 3891201383825838895, guid: c04d9c007b219374e9a68fdd79ab9a9b, type: 3}
+  BulletPrefab: {fileID: 6695342614666528758, guid: 440be409d35ad2a4e9bc113ce8efc1f7, type: 3}
   BulletParticle: {fileID: 5844239773114407539, guid: bb2ea304dbfcd3640b6477dc71408dad, type: 3}
   BulletSpawnPoint: {fileID: 2777616675069522651}
   FireRate: 1.5
@@ -300,7 +301,7 @@ Transform:
   m_GameObject: {fileID: 4876921022126449075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.008999974, y: 0.691, z: 1.036}
+  m_LocalPosition: {x: 0.008999974, y: 1.01, z: 0.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

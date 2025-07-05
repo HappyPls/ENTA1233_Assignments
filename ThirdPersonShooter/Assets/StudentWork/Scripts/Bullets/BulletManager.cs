@@ -18,6 +18,7 @@ namespace Player
 
         [Header("Firing Point")]
         [SerializeField] private Transform FirePoint;
+        [SerializeField] private GameObject fireballPrefab;
 
         [Header("Sounds")]
         [SerializeField] private AudioSource ShootingSource;
@@ -39,7 +40,7 @@ namespace Player
                 PlayerInputs.toggleFire = false; // reset after toggle
             }
 
-            if (PlayerInputs.aim && PlayerInputs.fire && !isCharging)
+            if (PlayerInputs.aim && PlayerInputs.fire)
             {
                 OnFirePressed();
             }
@@ -55,22 +56,33 @@ namespace Player
                 case ShootType.Raycast:
                     DoRaycastShot();                    
                     break;
+
                 case ShootType.Physics:
                     if (FirePoint != null)
                     {
                         Vector3 shootDirection = Cam.transform.forward;
-                        isCharging = true;
-                        SpawnPhysicsBullet(FirePoint, shootDirection);
+
+                        GameObject projectile = Instantiate(fireballPrefab, FirePoint.position, Quaternion.LookRotation(shootDirection));
+                        if (projectile.TryGetComponent(out FireballProjectile fireball))
+                        {
+                            isCharging = true;
+                            fireball.Initialize(this, () =>
+                            {
+                                isCharging = false;
+                                Debug.Log("Fireball Recharged! Input re-enabled");
+                            });
+                        }
+
                         PlayShootSound();
                     }
                     break;
+
                 default:
                     Debug.LogError("Unexpected Value");
                     break;
 
             }
         }
-
 
         private void DoRaycastShot()
         {

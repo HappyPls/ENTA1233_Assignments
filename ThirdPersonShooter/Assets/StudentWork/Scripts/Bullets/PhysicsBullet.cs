@@ -4,15 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballProjectile : MonoBehaviour
+public class PhysicsBullet : MonoBehaviour
 {
-    [SerializeField] private float chargeTime = 0.7f;
     [SerializeField] private float projectileSpeed = 50f;
     [SerializeField] private float projectileDamage = 25f;
     [SerializeField] private float knockbackForce = 10f;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float lifeTime = 5f;
-    [SerializeField] private GameObject explosionEffect;
 
     private BaseBulletManager shooterManager;
     private Action onFireComplete;
@@ -23,35 +21,16 @@ public class FireballProjectile : MonoBehaviour
     {
         shooterManager = manager;
         onFireComplete = onComplete;
+
         if (rb == null) rb = GetComponent<Rigidbody>();
-        StartCoroutine(ChargeAndLaunch());
+
+        Fire();
     }
-    private IEnumerator ChargeAndLaunch()
+    private void Fire()
     {
-        rb.isKinematic = true;
-        Vector3 initialScale = Vector3.one * 0.1f;
-        Vector3 finalScale = Vector3.one * 0.5f;
-        transform.localScale = initialScale;
-
-        float elapsed = 0f;
-
-        while (elapsed < chargeTime)
-        {
-            float t = elapsed / chargeTime;
-            transform.localScale = Vector3.Lerp(initialScale, finalScale, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.localScale = finalScale;
-
-        yield return new WaitForSeconds(chargeTime);
-
         rb.isKinematic = false;
-        rb.AddForce(transform.forward * projectileSpeed, ForceMode.Impulse);
-
+        rb.velocity = transform.forward * projectileSpeed;
         onFireComplete?.Invoke();
-
         Destroy(gameObject, lifeTime);
     }
 
@@ -79,17 +58,13 @@ public class FireballProjectile : MonoBehaviour
             player.TakeDamage((int)projectileDamage, hitDirection, knockbackForce);
         }
 
-        if (explosionEffect != null)
-        {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        }
         Destroy(gameObject);
     }
     private void OnDestroy()
     {
         if (!hasHit || (lastHitObject != null && lastHitObject.layer == LayerMask.NameToLayer("Ground")))
         {
-            Debug.Log("Fireball fizzled.");
+            Debug.Log("Bullet Missed");
         }
     }
 }

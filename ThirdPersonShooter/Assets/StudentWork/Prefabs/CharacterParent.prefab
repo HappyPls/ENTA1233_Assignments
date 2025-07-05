@@ -438,8 +438,8 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
-  Fire: 0
-  ToggleFire: 0
+  fire: 0
+  toggleFire: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -471,7 +471,7 @@ MonoBehaviour:
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   CinemachineCameraTarget: {fileID: 4304274597096482451}
   CameraSpeed: 1
   TopClamp: 70
@@ -503,6 +503,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 382
   ShootingCalculation: 1
+  FirePoint: {fileID: 0}
+  ShootingSource: {fileID: 0}
+  ShootingSound: {fileID: 0}
 --- !u!114 &7866032044034420011
 MonoBehaviour:
   m_ObjectHideFlags: 0

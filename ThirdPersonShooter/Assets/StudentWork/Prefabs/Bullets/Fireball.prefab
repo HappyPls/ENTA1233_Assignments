@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec6ab71a3f60784b9e001a603c4a6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeTime: 1
+  chargeTime: 0.5
   projectileSpeed: 30
   projectileDamage: 25
   knockbackForce: 10

@@ -27,8 +27,6 @@ public class AIBulletManager : BaseBulletManager
         if (currentTarget == null || BulletSpawnPoint == null) 
             return;
 
-        if (!agent.isStopped)
-            return;
 
         Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
         if (!Physics.Raycast(transform.position + Vector3.up, directionToTarget, out RaycastHit hit, DetectionRadius) ||
