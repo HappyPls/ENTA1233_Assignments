@@ -14,7 +14,6 @@ public class LevelManager : MonoBehaviour
     private List<GameObject> currentAgents = new List<GameObject>();
     private GameObject currentLayoutInstance;
 
-    [SerializeField] private GameObject gameOverUI;
     public static LevelManager Instance { get; private set; }
 
     private void Awake()
@@ -52,7 +51,10 @@ public class LevelManager : MonoBehaviour
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.SetActiveScene(scene);
-            SceneManager.UnloadSceneAsync("MainMenu");
+            if (SceneManager.GetSceneByName("MainMenu").isLoaded)
+            {
+                SceneManager.UnloadSceneAsync("MainMenu");
+            }
 
             if (this.gameObject.activeInHierarchy)
             {
@@ -94,9 +96,6 @@ public class LevelManager : MonoBehaviour
 
     private void RespawnPlayer(Scene targetScene)
     {
-        if (gameOverUI != null)
-            gameOverUI.SetActive(false);
-
         if (currentPlayer != null)
             Destroy(currentPlayer);
 

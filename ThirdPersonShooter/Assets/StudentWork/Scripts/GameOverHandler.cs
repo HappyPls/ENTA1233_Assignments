@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class GameOverHandler : MonoBehaviour
 {
+    [SerializeField] private GameObject gameOverUI;
     private void Update()
     {
         // Allow restart with space key
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnRestartButtonPressed();
+            if (gameOverUI != null)
+            {
+                gameOverUI.SetActive(false);
+            }
         }
     }
     public void OnRestartButtonPressed()

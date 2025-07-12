@@ -15,6 +15,8 @@ namespace Player
         [Header("Raycast")]
         [SerializeField] private LayerMask RaycastMask;
         [SerializeField] private ShootType ShootingCalculation;
+        private float fireDelay = 1f;
+        private bool isFiring = false;
 
         [Header("Firing Point")]
         [SerializeField] private Transform FirePoint;
@@ -55,7 +57,8 @@ namespace Player
             switch (ShootingCalculation)
             {
                 case ShootType.Raycast:
-                    DoRaycastShot();                    
+                    if (!isFiring)
+                        StartCoroutine(DelayedRaycastShot());
                     break;
 
                 case ShootType.Physics:
@@ -113,8 +116,8 @@ namespace Player
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            if(PlayerInputs.aim)
-            Gizmos.DrawLine(Cam.transform.position, Cam.transform.position + Cam.transform.forward * 100);
+            if (PlayerInputs.aim)
+                Gizmos.DrawLine(Cam.transform.position, Cam.transform.position + Cam.transform.forward * 100);
         }
         private void ToggleShootType()
         {
@@ -126,6 +129,17 @@ namespace Player
         {
             if (ShootingSource && ShootingSound)
                 ShootingSource.PlayOneShot(ShootingSound);
+        }
+
+    private IEnumerator DelayedRaycastShot()
+        {
+            isFiring = true;
+            yield return new WaitForSeconds(fireDelay);
+
+            DoRaycastShot();
+            PlayShootSound();
+
+            isFiring = false;
         }
     }
 }

@@ -5,13 +5,8 @@ using UnityEngine;
 public class HealthUp : PickUps
 {
     [SerializeField] private int HealthRecovered = 20;
-    void OnTriggerEnter(Collider other)
+    protected override void ApplyStats(PlayerStats stats)
     {
-        PlayerStats stats = other.GetComponent<PlayerStats>();
-        if (stats != null)
-        {
             stats.RecoverHP(20);
-            Destroy(gameObject);
-        }
     }
 }

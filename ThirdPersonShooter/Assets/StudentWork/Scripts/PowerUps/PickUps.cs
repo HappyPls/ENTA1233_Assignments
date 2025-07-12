@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUps : MonoBehaviour
+public abstract class PickUps : MonoBehaviour
 {
-    private float floatSpeed = 1f;
-    private float floatHeight = 0.15f;
+    private float floatSpeed = 1.5f;
+    private float floatHeight = 0.20f;
 
     private float rotationSpeed = 100f;
 
@@ -27,4 +27,15 @@ public class PickUps : MonoBehaviour
 
         transform.Rotate(Vector3.up, rotationSpeed *Time.deltaTime, Space.World);
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        PlayerStats stats = other.GetComponent<PlayerStats>();
+        if (stats != null)
+        {
+            ApplyStats(stats);
+            Destroy(gameObject);
+        }
+    }
+    protected abstract void ApplyStats(PlayerStats stats);
 }

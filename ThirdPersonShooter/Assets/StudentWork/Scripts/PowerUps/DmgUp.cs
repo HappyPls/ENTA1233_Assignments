@@ -5,13 +5,8 @@ using UnityEngine;
 public class DmgUp : PickUps
 {
     [SerializeField] private float bonusDamage = 10f;
-    void OnTriggerEnter(Collider other)
+    protected override void ApplyStats(PlayerStats stats)
     {
-        PlayerStats stats = other.GetComponent<PlayerStats>();
-        if (stats != null )
-        {
-            stats.AddBonusDamage(10f);
-            Destroy(gameObject);
-        }
+        stats.AddBonusDamage(10f);
     }
 }
