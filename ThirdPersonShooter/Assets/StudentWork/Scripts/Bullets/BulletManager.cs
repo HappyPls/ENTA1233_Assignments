@@ -25,6 +25,7 @@ namespace Player
         [SerializeField] private AudioClip ShootingSound;
 
         private bool isCharging = false;
+        private PlayerStats playerStats;
 
         public enum ShootType
         {
@@ -91,13 +92,14 @@ namespace Player
             if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RaycastHit hit, Mathf.Infinity, RaycastMask))
             {
                 Debug.Log("Raycast Hit!");
+                playerStats = GetComponent<PlayerStats>();
 
                 EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
                 if (enemy != null)
                 {
                     Debug.Log("Enemy hit! Applying Damage.");
                     Vector3 hitDirection = hit.collider.transform.position - Cam.transform.position;
-                    enemy.OnDamage(25, hitDirection, transform, 15f);
+                    enemy.OnDamage((int)playerStats.GetTotalDamage(), hitDirection, transform, 15f);
                 }
 
                 OnProjectileCollision(hit.point, hit.normal);

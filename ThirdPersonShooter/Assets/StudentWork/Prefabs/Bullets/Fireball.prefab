@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeTime: 0.5
   projectileSpeed: 30
-  projectileDamage: 25
+  projectileDamage: 5
   knockbackForce: 10
   rb: {fileID: -2322137651409960541}
   lifeTime: 3

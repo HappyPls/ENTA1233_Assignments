@@ -52,7 +52,7 @@ public class PhysicsBullet : MonoBehaviour
         }
 
         //Player Damage
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
+        PlayerStats player = other.GetComponent<PlayerStats>();
         if (player != null)
         {
             player.TakeDamage((int)projectileDamage, hitDirection, knockbackForce);

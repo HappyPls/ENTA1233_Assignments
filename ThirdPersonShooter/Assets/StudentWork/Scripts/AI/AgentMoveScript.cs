@@ -26,6 +26,8 @@ public class AgentMoveScript : MonoBehaviour
     private bool hasSeenPlayer = false;
     private Vector3 lastKnownPlayerPosition;
     private bool playerInSight;
+    private float stuckTimer = 0f;
+    private float maxStuckTime = 5f;
 
     private void Start()
     {
@@ -58,10 +60,22 @@ public class AgentMoveScript : MonoBehaviour
         {
             if (NavMeshAgent != null && NavMeshAgent.enabled && NavMeshAgent.isOnNavMesh)
             {
-                if (!NavMeshAgent.pathPending && NavMeshAgent.remainingDistance < 0.5f)
+                if (!NavMeshAgent.pathPending)
                 {
-                    NavMeshAgent.isStopped = false;
-                    PatrolToNextPoint();
+                    if (NavMeshAgent.remainingDistance < 0.5f)
+                    {
+                        stuckTimer += Time.deltaTime;
+
+                        if (stuckTimer >= maxStuckTime)
+                        {
+                            stuckTimer = 0f;
+                            PatrolToNextPoint();
+                        }
+                    }
+                    else
+                    {
+                        stuckTimer = 0f;
+                    }
                 }
             }
         }
@@ -73,7 +87,9 @@ public class AgentMoveScript : MonoBehaviour
         {
             return;
         }
-        NavMeshAgent.destination = PatrolPoints[currentPatrolIndex].position;
+        Vector3 offset = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+        NavMeshAgent.destination = PatrolPoints[currentPatrolIndex].position + offset;
+
         currentPatrolIndex = (currentPatrolIndex + 1) % PatrolPoints.Length;
     }
 
@@ -184,6 +200,8 @@ public class AgentMoveScript : MonoBehaviour
         {
             PatrolPoints[i] = shuffled[i].transform;
         }
+
+        currentPatrolIndex = Random.Range(0, PatrolPoints.Length);
     }
 
     public void ReactToHit(Transform attacker)

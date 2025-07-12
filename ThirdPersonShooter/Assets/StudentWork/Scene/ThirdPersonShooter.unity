@@ -122,7 +122,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &384961639
+--- !u!1 &427026329
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,46 +130,66 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 384961640}
-  - component: {fileID: 384961641}
+  - component: {fileID: 427026332}
+  - component: {fileID: 427026331}
+  - component: {fileID: 427026330}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &384961640
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384961639}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.112238, y: 2.9719687, z: -3.1936686}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &384961641
+--- !u!114 &427026330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384961639}
+  m_GameObject: {fileID: 427026329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0626f65444d4d4540bf726b90a3faf89, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelLayoutPrefabs:
-  - {fileID: 2635609433570606949, guid: e6efc6a5cf6667f45ad8356aeb779fc8, type: 3}
-  characterPrefab: {fileID: 1347848909560569957, guid: 49ee0e901c7f31a4e8b76214ac7d368f, type: 3}
-  agentPrefab: {fileID: 1114047611689886405, guid: d58f5b844c8054346bfa8d8b4b39d3dd, type: 3}
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &427026331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427026329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &427026332
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427026329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &896577152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,11 +201,11 @@ PrefabInstance:
     - target: {fileID: 1915237405613245336, guid: 17fdd8732f3620e4390f482522d5b5cf, type: 3}
       propertyPath: LevelManager
       value: 
-      objectReference: {fileID: 384961641}
+      objectReference: {fileID: 0}
     - target: {fileID: 1915237405613245336, guid: 17fdd8732f3620e4390f482522d5b5cf, type: 3}
       propertyPath: levelManager
       value: 
-      objectReference: {fileID: 384961641}
+      objectReference: {fileID: 0}
     - target: {fileID: 4360044645133054927, guid: 17fdd8732f3620e4390f482522d5b5cf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.375543
@@ -252,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1799904158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,5 +378,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1799904160}
-  - {fileID: 384961640}
   - {fileID: 896577152}
+  - {fileID: 427026332}

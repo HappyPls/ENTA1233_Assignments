@@ -31,10 +31,11 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void OnDamage(int amount, Vector3 hitDirection, Transform attacker, float knockbackForce = 10f)
+    public void OnDamage(int amount, Vector3 hitDirection, Transform attacker, float knockbackForce = 5f)
     {
         currentHP -= amount;
         FlashHit();
+        Debug.Log("Agent Damaged! Current HP = " + currentHP);
 
         GetComponent<AgentMoveScript>()?.ReactToHit(attacker);
 
@@ -43,7 +44,7 @@ public class EnemyHealth : MonoBehaviour
         {
             rb.AddForce(hitDirection.normalized * knockbackForce, ForceMode.Impulse);
             agent.enabled = false;
-            Invoke(nameof(ReactivateAgent), 0.5f);
+            Invoke(nameof(ReactivateAgent), 0.2f);
         }
         if (currentHP <= 0)
         {

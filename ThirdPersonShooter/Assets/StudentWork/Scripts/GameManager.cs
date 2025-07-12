@@ -7,35 +7,33 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //singleton pattern
-    public static GameManager Instance { get; private set;  }
+    public static GameManager Instance { get; private set; }
 
-    [SerializeField] private LevelManager LevelManager;
-    
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Prevent duplicates
             return;
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-
+        DontDestroyOnLoad(this.gameObject);
         InitializeGame();
     }
+
     private void InitializeGame()
     {
-        LevelManager.LoadLevelAdditively("SimpleLevel");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
+    
     // Update is called once per frame
     void Update()
     { 
         TogglePause();
         RestartGame();
     }
-
+    
     public void TogglePause()
     {
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.P))
@@ -50,8 +48,14 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
         {
+            Debug.Log("Ctrl+R detected!");
             Time.timeScale = 1f;
-            LevelManager.Respawn();
+            LevelManager levelManager = FindObjectOfType<LevelManager>();
+            if (levelManager != null)
+            {
+                levelManager.ClearState();
+            }
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
             Debug.Log("Game Restarted!");

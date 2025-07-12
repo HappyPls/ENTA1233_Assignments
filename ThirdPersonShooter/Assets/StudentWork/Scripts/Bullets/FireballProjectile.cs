@@ -23,7 +23,13 @@ public class FireballProjectile : MonoBehaviour
     {
         shooterManager = manager;
         onFireComplete = onComplete;
+
         if (rb == null) rb = GetComponent<Rigidbody>();
+        PlayerStats stats = manager.GetComponent<PlayerStats>();
+        if (stats != null )
+        {
+            projectileDamage = stats.GetTotalDamage();
+        }
         StartCoroutine(ChargeAndLaunch());
     }
     private IEnumerator ChargeAndLaunch()
@@ -73,7 +79,7 @@ public class FireballProjectile : MonoBehaviour
         }
 
         //Player Damage
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
+        PlayerStats player = other.GetComponent<PlayerStats>();
         if (player != null)
         {
             player.TakeDamage((int)projectileDamage, hitDirection, knockbackForce);
